@@ -3,11 +3,13 @@
 import Foundation
 
 var valueFirst : Int = 15
-var valueSecond : UInt = (valueFirst as? UInt ?? 6)
+var valueSecond : Int? = 5
+valueSecond = nil
 
 
 
 
 
-print()
+
+print(valueSecond)
 
