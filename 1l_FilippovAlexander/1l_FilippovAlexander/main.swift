@@ -44,10 +44,10 @@ var cathetusB = 15
 var x = cathetusA; // Для удобства: Xcode не дал назвать переменные a, b, c.
 var y = cathetusB; // Чтобы в команду print и формулы не выводить длинные значения
 var hypotenuseC = sqrtf(Float(x*x + y*y))
-var z = hypotenuseC;
+var z = Int(hypotenuseC);
 
 var square = x * y / 2
-var perimeter = x + y + (Int(z))
+var perimeter = x + y + z
 
 print("Задание 2. Даны катеты прямоугольного треугольника.")
 print("Найти площадь, периметр и гипотенузу треугольника.")
@@ -58,7 +58,8 @@ print("гипотенуза равна \(z) см, а периметр \(perimete
 print("Конец задания 2.")
 
 
+// Задание 1. Решение квадратного уравнения.
 
-
-
+var f = Int(z)
+print(f)
 
