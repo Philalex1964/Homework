@@ -23,7 +23,7 @@ default:
 
 
 
-let a = 7
+/*let a = 7
 switch  a   {
 case 1:
     print ("case 1")
@@ -34,9 +34,21 @@ case 3:
 default:
     print ("Default")
     // выполняется, если ни один из вариантов не будет соответствовать значению
+}*/
+
+let a = 7
+switch  a  {
+case 1:
+    print ("case 1")
+case 7, 8:
+    print ("Case 2")
+    fallthrough
+case 6,9:
+    print ("Case 3")
+    fallthrough
+default:
+    print ("Default")
+
 }
-
-
-
 
 
