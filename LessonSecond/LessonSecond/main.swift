@@ -11,6 +11,15 @@ import Foundation
 
 
 
+let x = 10
+if x == 20 {           // условие неверно, код в блоке не выполнится
+    print("perform")
+} else if x == 30 {   // условие неверно, код в блоке не выполнится
+    print("perform again")
+} else {
+    print("default")
+}
+
 
 
 
