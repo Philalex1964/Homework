@@ -6,19 +6,13 @@
 //  Copyright © 2019 Philalex. All rights reserved.
 //
 
-/*Домашнее задание
-
-
-6 *Заполнить массив из 100 элементов различными простыми числами. Натуральное число, большее единицы, называется простым, если оно делится только на себя и на единицу. Для нахождения всех простых чисел не больше заданного числа n, следуя методу Эратосфена, нужно выполнить следующие шаги:
-Выписать подряд все целые числа от двух до n (2, 3, 4, ..., n).
-Пусть переменная p изначально равна двум – первому простому числу.
-Зачеркнуть в списке числа от 2p до n, считая шагами по p (это будут числа, кратные p: 2p, 3p, 4p, ...).
-Найти первое не зачеркнутое число в списке, большее, чем p, и присвоить значению переменной p это число.
-Повторять шаги c и d, пока возможно.*/
+//Домашнее задание
 
 
 import Foundation
 
+
+print("Задание 1.")
 //1. Написать функцию, которая определяет, четное число или нет.
 
 func checkEvenNumber (number: Int)  {
@@ -33,6 +27,7 @@ var number :Int = 284
 checkEvenNumber(number: number)
 
 
+print("Задание 2.")
 //2. Написать функцию, которая определяет, делится ли число без остатка на 3.
 
 func checkNumberDevideByThree (number: Int)  {
@@ -43,17 +38,18 @@ func checkNumberDevideByThree (number: Int)  {
         
     }
 }
-
 checkNumberDevideByThree(number: number)
 
 
+print("Задание 3.")
 //3. Создать возрастающий массив из 100 чисел.
 
 var array = [Int] (1...100)
 print(array)
 
-//4. Удалить из этого массива все четные числа и все числа, которые не делятся на 3.
 
+print("Задание 4.")
+//4. Удалить из этого массива все четные числа и все числа, которые не делятся на 3.
 
 for element in array where element % 2 == 0 || element % 3 == 0 {
     array.remove(at: array.index(of: element)!)
@@ -61,10 +57,9 @@ for element in array where element % 2 == 0 || element % 3 == 0 {
 print (array)
 
 
+print("Задание 5.")
 //5. *Написать функцию, которая добавляет в массив новое число Фибоначчи, и добавить при помощи нее 100 элементов.
-//Числа Фибоначчи определяются соотношениями Fn=Fn-1 + Fn-2.
-//Из версий про первые числа 0,1,1 и 1,1,2 предпочитаю оригинальную с кроликами. Соответственно, выбираю вариант 1,1,2
-
+//Из версий про первые числа 0,1,1 и 1,1,2 предпочитаю оригинальную с кроликами)) Соответственно, выбираю вариант 1,1,2.
 
 func fibonacciNumber (n: Int) -> (Decimal) {
     if (n<3) {
@@ -88,4 +83,67 @@ for i in 1...n {
 print(fibonacciArray)
 
 
+print("Задание 6.")
+// 6 *Заполнить массив из 100 элементов различными простыми числами.
 
+func primeNumbers (number: UInt) -> Bool {
+    for i in 2..<number {
+        if number % i == 0 {
+            return false
+        }
+    }
+    return true
+}
+
+func primeNumbersArray () -> [UInt] {
+    var result = [UInt]()
+    var i = 2
+    while result.count < 100 {
+        if primeNumbers(number: UInt(i)) {
+            result.append(UInt(i))
+        }
+        i += 1
+    }
+    
+    return result
+}
+print (primeNumbersArray())
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*/ Sixth program
+func Prime (num: Int) -> Bool {
+    if num < 2 {
+        return false
+    }
+    for i in 2..<num {
+        if num % i == 0 {
+            return false
+        }
+    }
+    
+    return true
+}
+func PrimeArray () -> [Int] {
+    var results = [Int]()
+    var i = 2
+    while results.count < 100 {
+        if Prime(num: i) {
+            results.append(i)
+        }
+        i += 1
+    }
+    
+    return results
+}
+print (PrimeArray())*/
