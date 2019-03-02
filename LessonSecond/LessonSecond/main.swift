@@ -8,47 +8,26 @@
 
 import Foundation
 
-
-let point = (1, 2)
-switch point {
-case (0, 0):
-    print("(0, 0) является точкой отсчета.")
-case (-2...2, -2...2):
-    print("(\(point.0), \(point.1)) находится рядом с точкой отсчета.")
-default:
-    print("Точка имеет координаты (\(point.0), \(point.1)).")
-}
-// Выведет "(1, 2)находится рядом с точкой отсчета."
-
-
-
-
-/*let a = 7
-switch  a   {
-case 1:
-    print ("case 1")
-case 7, 8:
-    print ("Case 2")
-case 3:
-    print ("Case 3")
-default:
-    print ("Default")
-    // выполняется, если ни один из вариантов не будет соответствовать значению
-}*/
-
-let a = 7
-switch  a  {
-case 1:
-    print ("case 1")
-case 7, 8:
-    print ("Case 2")
-    fallthrough
-case 6,9:
-    print ("Case 3")
-    fallthrough
-default:
-    print ("Default")
-
+let array = [5,12,7,32]
+for element in array {
+    let z = element * 2
+    print (z)
 }
 
+for _ in 1...5 {
+    print ("repeat")
+}
+
+for i in stride(from: 0, to: 5, by: 2) {
+    print (i)
+}
+print("=====")
+
+for i in stride(from: 0, to: 9, by: 3) {
+    print (i)
+}
+
+for element in array where element % 2 == 0 {
+    print (element)
+}
 
