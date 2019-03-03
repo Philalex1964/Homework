@@ -17,14 +17,16 @@ import Foundation
 print("Задание 1.")
 //1. Написать функцию, которая определяет, четное число или нет.
 
-func checkEvenNumber (number: Int)  {
+func checkEvenNumber (number: Int) -> Bool {
     if number % 2 == 0 {
         print("Число \(number) - четное.")
     } else {
         print("Число \(number) - нечетное.")
         
     }
+    return true
 }
+
 var number :Int = 284
 checkEvenNumber(number: number)
 
@@ -53,7 +55,7 @@ print(array)
 print("Задание 4.")
 //4. Удалить из этого массива все четные числа и все числа, которые не делятся на 3.
 
-for element in array where element % 2 == 0 || element % 3 == 0 {
+for element in array where element % 2 == 0 || element % 3 != 0 {
     array.remove(at: array.index(of: element)!)
 }
 print (array)
