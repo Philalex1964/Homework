@@ -53,6 +53,8 @@ var car1 = Vehicle(vehicleType: .car, mark: .mercedes, productionYear: 2018, tru
 
 var truck1 = Vehicle(vehicleType: .car, mark: .mercedes, productionYear: 2018, trunkVolume: 0, engineState: .off, windowsState: .close, trunkState: .empty)
 
+var  car2 = Vehicle(vehicleType: <#T##VehicleType.Type#>, mark: <#T##Mark#>, productionYear: <#T##Int#>, trunkVolume: <#T##Int#>, engineState: <#T##EngineState.Type#>, windowsState: <#T##WindowsState#>, trunkState: <#T##TrunkState.Type#><#value#>
+
 
 
 
