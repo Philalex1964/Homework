@@ -90,19 +90,25 @@ struct Vehicle {
         self.windowsState = windowsState
         self.trunkState = trunkState
     }
+    
+    func printVehicle () {
+    print("Vehicle is a \(vehicleType), mark is \(mark), year is \(productionYear), trunk capacity is \(trunkVolume) and is \(trunkState), windows are \(windowsState)d and engine is \(engineState).")
+    }
+    
 }
 
 
 var car1 = Vehicle(vehicleType: .car, mark: .mercedes, productionYear: 2018, trunkVolume: 10, trunkState: .empty, windowsState: .close, engineState: .off)
 
-var car3 = Vehicle(vehicleType: .car, mark: .volvo, productionYear: 2019, trunkVolume: 20, trunkState: .empty, windowsState: .close, engineState: .off)
+var car2 = Vehicle(vehicleType: .car, mark: .volvo, productionYear: 2019, trunkVolume: 20, trunkState: .empty, windowsState: .close, engineState: .off)
 
 var truck1 = Vehicle(vehicleType: .truck, mark: .volvo, productionYear: 2018, trunkVolume: 100, trunkState: .full, windowsState: .close, engineState: .off)
 
+car1.printVehicle()
+car2.printVehicle()
+truck1.printVehicle()
 
-//func printVehicle () {
-    print("Vehicle is \(vehicleType), mark is \(mark), year is\(productionYear), trunk capacity is \(trunkVolume) and is \(trunkState), windows are \(windowsState) and engine is \(engineState).")
-//}
+
 
 
 
