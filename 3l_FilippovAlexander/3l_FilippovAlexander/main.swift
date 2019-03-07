@@ -41,10 +41,10 @@ enum TrunkState {
 }
 
 struct Vehicle {
-    var vehicleType : VehicleType
-    var mark : Mark
-    var productionYear : Int
-    var trunkVolume : Int = 0 { // Контроль оставшегося места в автомобиле
+    var vehicleType : VehicleType = .car
+    var mark : Mark = .mercedes
+    var productionYear : Int = 2019
+    var trunkVolume : Int = 20 { // Контроль оставшегося места в автомобиле
         willSet {
             if (trunkState == .empty) || (trunkVolume > 0) && (trunkVolume != 0) && (newValue < trunkVolume) {
                 let space = trunkVolume - newValue
@@ -52,10 +52,10 @@ struct Vehicle {
             } else { print("Trunk is full.")}
         }
     }
-    var engineState : EngineState
-    var windowsState : WindowsState
-    var trunkState : TrunkState
-    var model : String
+    var engineState : EngineState = .off
+    var windowsState : WindowsState = .close
+    var trunkState : TrunkState = .empty
+    var model : String = "AMG 63"
     
     
     
@@ -80,27 +80,30 @@ struct Vehicle {
         print ("Ready for Unloading")
         }
     }
-    init (vehicleType: VehicleType, mark: Mark, productionYear: Int, trunkVolume: Int) {
+    init (vehicleType: VehicleType, mark: Mark, productionYear: Int, trunkVolume: Int, trunkState: TrunkState, windowsState: WindowsState, engineState: EngineState) {
         model = "AMG 63"
         self.mark = mark
         self.vehicleType = vehicleType
         self.productionYear = productionYear
         self.trunkVolume = trunkVolume
+        self.engineState = engineState
+        self.windowsState = windowsState
+        self.trunkState = trunkState
     }
 }
-// здесь требует декларацию ((( не понимаю, что надо сделать}
-    
-    
 
 
+var car1 = Vehicle(vehicleType: .car, mark: .mercedes, productionYear: 2018, trunkVolume: 10, trunkState: .empty, windowsState: .close, engineState: .off)
 
-//var car1 = Vehicle(vehicleType: .car, mark: .mercedes, productionYear: 2018, trunkVolume: 10, engineState: .off, windowsState: .close, trunkState: .empty)
+var car3 = Vehicle(vehicleType: .car, mark: .volvo, productionYear: 2019, trunkVolume: 20, trunkState: .empty, windowsState: .close, engineState: .off)
 
-//var truck1 = Vehicle(vehicleType: .truck, mark: .volvo, productionYear: 2018, trunkVolume: 100, engineState: .off, windowsState: .close, trunkState: .full)
+var truck1 = Vehicle(vehicleType: .truck, mark: .volvo, productionYear: 2018, trunkVolume: 100, trunkState: .full, windowsState: .close, engineState: .off)
 
 
-    
-    
+//func printVehicle () {
+    print("Vehicle is \(vehicleType), mark is \(mark), year is\(productionYear), trunk capacity is \(trunkVolume) and is \(trunkState), windows are \(windowsState) and engine is \(engineState).")
+//}
+
 
 
 
