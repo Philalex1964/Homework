@@ -53,8 +53,8 @@ enum EngineTurbo {
     case on, off
 }
 
-enum AxlesNumber { // количество мостов
-    case two, three
+enum TrailersNumber { // количество прицепов
+    case one, two
 }
 
 
@@ -100,13 +100,13 @@ class SportCar: Vehicle {
     }
 }
 
-class TrunkTruck: Vehicle { //trunkCar - абсурд, т.к. Car - это легковая машина
-    var axlesNumber : AxlesNumber
-    var trailer : Bool //прицеп
+class TrunkTruck: Vehicle { //trunkCar совсем плохо, т.к. Car - это легковая машина, а trunk - багажник
+    var trailersNumber : TrailersNumber
+    var threeAxles : Bool //3 моста
     
-    init(vehicleType: VehicleType, mark: Mark, productionYear: Int, engineState: EngineState, windowsState: WindowsState, trunkState: TrunkState, model: String, axelsNumber : AxlesNumber, tuning: Bool) {
-        self.axlesNumber = axlesNumber
-        self.trailer = trailer
+    init(vehicleType: VehicleType, mark: Mark, productionYear: Int, engineState: EngineState, windowsState: WindowsState, trunkState: TrunkState, model: String, trailersNumber: TrailersNumber, threeAxles: Bool) {
+        self.threeAxles = threeAxles
+        self.trailersNumber = trailersNumber
         super.init(vehicleType: vehicleType, mark: mark, productionYear: productionYear, engineState: engineState, windowsState: windowsState, trunkState: trunkState, model: model)
         
     }
