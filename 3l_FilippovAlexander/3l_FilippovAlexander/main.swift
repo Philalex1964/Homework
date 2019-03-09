@@ -92,7 +92,7 @@ struct Vehicle {
     }
     
     func printVehicle () {
-    print("Vehicle is a \(vehicleType), mark is \(mark), year is \(productionYear), trunk capacity is \(trunkVolume) and is \(trunkState), windows are \(windowsState)d and engine is \(engineState).")
+    print("Vehicle is a \(vehicleType), \nmark is \(mark), \nyear is \(productionYear), \ntrunk capacity is \(trunkVolume) and is \(trunkState), \nwindows are \(windowsState)d \nand engine is \(engineState).")
     }
     
 }
