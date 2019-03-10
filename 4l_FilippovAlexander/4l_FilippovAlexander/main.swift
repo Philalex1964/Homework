@@ -4,18 +4,9 @@
 //
 //  Created by Александр Филиппов on 09.03.2019.
 //  Copyright © 2019 Philalex. All rights reserved.
-//
 
-//
 
-//
 
-//
-//4. В каждом подклассе переопределить метод действия с автомобилем в соответствии с его классом.
-//
-//5. Создать несколько объектов каждого класса. Применить к ним различные действия.
-//
-//6. Вывести значения свойств экземпляров в консоль.
 
 
 
@@ -26,17 +17,18 @@ import Foundation
 enum VehicleType {
     case car
     case truck
+    case sportCar
 }
 
 enum Mark {
     case mercedes
     case volvo
-    case honda
+    case mazda
 }
 
 enum WindowsState {
     case open
-    case close
+    case closed
 }
 
 enum EngineState {
@@ -79,12 +71,35 @@ class Vehicle {
         self.trunkState = trunkState
         self.model = model
         
-        func countInfo(){
-            
-        }
-            
+        Vehicle.carCount += 1
     }
-        
+    
+    static func countInfo(){
+        print("Выпущено \(carCount) автомобилей")
+    }
+    
+    func startEngine() {
+        engineState = engineState == .off ? .on: .on
+    }
+    
+    func loadUnload() {
+        trunkState = trunkState == .empty ? .full : .empty
+        if trunkState == .empty {
+        print ("Ready for Loading")
+        } else{
+        print ("Ready for Unloading")
+        }
+    }
+    
+    func shutWindow() {
+        windowsState = windowsState == .open ? .closed : .closed
+        print ("Windows are closed")
+    }
+    
+    func vehicleInfo() {
+        print("This is \(vehicleType), mark \(mark), model \(model), \nmunufactured in \(productionYear), engine is \(engineState), windows \(windowsState) \nand the trunk is \(trunkState).")
+    }
+    
 }
     
 //2. Описать пару его наследников trunkCar и sportСar. Подумать, какими отличительными свойствами обладают эти автомобили. Описать в каждом наследнике специфичные для него свойства.
@@ -98,6 +113,17 @@ class SportCar: Vehicle {
         self.tuning = tuning
         super.init(vehicleType: vehicleType, mark: mark, productionYear: productionYear, engineState: engineState, windowsState: windowsState, trunkState: trunkState, model: model)
     }
+//4. В каждом подклассе переопределить метод действия с автомобилем в соответствии с его классом.
+    
+    override func startEngine() {
+        engineState = engineState == .off ? .on: .on
+        turbo = turbo == .off ? .on: .on
+    }
+    
+    override func vehicleInfo() {
+        print("This is \(vehicleType), mark \(mark), model \(model), \nmunufactured in \(productionYear), with tuning \(tuning) \nengine is \(engineState), turbo is \(turbo), \nwindows \(windowsState) and the trunk is \(trunkState).")
+    }
+    
 }
 
 class TrunkTruck: Vehicle { //trunkCar совсем плохо, т.к. Car - это легковая машина, а trunk - багажник
@@ -108,60 +134,53 @@ class TrunkTruck: Vehicle { //trunkCar совсем плохо, т.к. Car - э�
         self.threeAxles = threeAxles
         self.trailersNumber = trailersNumber
         super.init(vehicleType: vehicleType, mark: mark, productionYear: productionYear, engineState: engineState, windowsState: windowsState, trunkState: trunkState, model: model)
-        
-    }
-}
-
-
-
-
-
-    /*/ Контроль выключения двигателя. Специально даю задачу привести двигатель в неработающее состояние
-    mutating func stopEngine() {
-        engineState = engineState == .on ? .off: .off
-        print ("Engine is off")
     }
     
-    // Контроль закрытия окон. То же самое
-    mutating func shutWindow() {
-        windowsState = windowsState == .open ? .close : .close
-        print ("Windows are closed")
-    }
-    
-    // Контроль разгрузки/загрузки
-    mutating func loadUnload() {
+    override func loadUnload() {
         trunkState = trunkState == .empty ? .full : .empty
         if trunkState == .empty {
             print ("Ready for Loading")
         } else{
             print ("Ready for Unloading")
         }
-    }
-    init (vehicleType: VehicleType, mark: Mark, productionYear: Int, trunkVolume: Int, trunkState: TrunkState, windowsState: WindowsState, engineState: EngineState) {
-        model = "AMG 63"
-        self.mark = mark
-        self.vehicleType = vehicleType
-        self.productionYear = productionYear
-        self.trunkVolume = trunkVolume
-        self.engineState = engineState
-        self.windowsState = windowsState
-        self.trunkState = trunkState
+        trailersNumber = trailersNumber == .one ? .two : .two
     }
     
-    func printVehicle () {
-        print("Vehicle is a \(vehicleType), \nmark is \(mark), \nyear is \(productionYear), \ntrunk capacity is \(trunkVolume) and is \(trunkState), \nwindows are \(windowsState)d \nand engine is \(engineState).")
-    }*/
+    override func vehicleInfo() {
+        print("This is \(vehicleType), mark \(mark), model \(model), \nmunufactured in \(productionYear), engine is \(engineState), \nwith \(trailersNumber) trailers, with 3 axles \(threeAxles), \nwindows \(windowsState) and the trunk is \(trunkState).")
+    }
+
+}
+//5. Создать несколько объектов каждого класса. Применить к ним различные действия.
+
+var vehicle1 = Vehicle(vehicleType: .car, mark: .volvo, productionYear: 2018, engineState: .on, windowsState: .closed, trunkState: .empty, model: "XC-70")
+
+var vehicle2 = Vehicle(vehicleType: .truck, mark: .mercedes, productionYear: 2018, engineState: .off, windowsState: .closed, trunkState: .empty, model: "Actros")
+
+var sportCar1 = SportCar(vehicleType: .car, mark: .mazda, productionYear: 2019, engineState: .off, windowsState: .closed, trunkState: .empty, model: "RX-7", turbo: .off, tuning: true)
+
+var sportCar2 = SportCar(vehicleType: .car, mark: .mercedes, productionYear: 2019, engineState: .off, windowsState: .closed, trunkState: .empty, model: "AMG 63", turbo: .off, tuning: true)
+
+var truck1 = TrunkTruck(vehicleType: .truck, mark: .volvo, productionYear: 2018, engineState: .off, windowsState: .closed, trunkState: .empty, model: "FH16", trailersNumber: .one, threeAxles: true)
+
+
+
+vehicle1.startEngine()
+vehicle2.loadUnload()
+sportCar1.startEngine()
+sportCar2.shutWindow()
+truck1.loadUnload()
+
+//6. Вывести значения свойств экземпляров в консоль.
+
+vehicle1.vehicleInfo()
+vehicle2.vehicleInfo()
+sportCar1.vehicleInfo()
+sportCar2.vehicleInfo()
+truck1.vehicleInfo()
+
+
+
+
     
-
-
-
-//var car1 = Vehicle(vehicleType: .car, mark: .mercedes, productionYear: 2018, trunkVolume: 10, trunkState: .empty, windowsState: .close, engineState: .off)
-//
-//var car2 = Vehicle(vehicleType: .car, mark: .volvo, productionYear: 2019, trunkVolume: 20, trunkState: .empty, windowsState: .close, engineState: .off)
-//
-//var truck1 = Vehicle(vehicleType: .truck, mark: .volvo, productionYear: 2018, trunkVolume: 100, trunkState: .full, windowsState: .close, engineState: .off)
-//
-//car1.printVehicle()
-//car2.printVehicle()
-//truck1.printVehicle()
 

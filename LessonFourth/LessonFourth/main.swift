@@ -71,59 +71,59 @@ import Foundation
 //print(car1.km,", ", car2.km) //500.0, 500.0
 
 
-////Пример 3 Свойства и методы класса
-//enum DoorState {
-//    case open, close
-//}
-//enum Transmission {
-//    case manual, auto
-//}
-//
-//enum Color {
-//    case white, black
-//}
-//
-//class Honda {
-//    let color: Color
-//    let mp3: Bool
-//    let transmission: Transmission
-//    var km: Double
-//    var doorState: DoorState
-//    // ключевое слово static указывает на то, что это свойство класса
-//    static var carCount = 0
-//
-//    init(color: Color, mp3: Bool, transmission: Transmission,km: Double, doorState: DoorState) {
-//        self.color = color
-//        self.mp3 = mp3
-//        self.transmission = transmission
-//        self.km = km
-//        self.doorState = doorState
-//        // в конструкторе будем увеличивать переменную на 1
-//        Honda.carCount += 1
-//    }
-//    static func countInfo(){
-//        print("Выпущено \(carCount) автомобилей")
-//    }
-//
-//    func carInfo() {
-//       print("Car is Honda, \ncolor is \(color), \nmp3 availaibility is \(mp3), \ntransmission is \(transmission), \ndoors are \(doorState).")
-//   }
-//
-//}
-//
-//
-//
-//
-//let car1 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
-//let car2 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
-//let car3 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
-//let car4 = Honda(color: .black, mp3: true, transmission: .auto, km: 0, doorState: .close)
-//
-//
-//
-////car1.carInfo
-//print(Honda.carCount)     // 4
-//Honda.countInfo()        // Выпущено 4 автомобилей
+//Пример 3 Свойства и методы класса
+enum DoorState {
+    case open, close
+}
+enum Transmission {
+    case manual, auto
+}
+
+enum Color {
+    case white, black
+}
+
+class Honda {
+    let color: Color
+    let mp3: Bool
+    let transmission: Transmission
+    var km: Double
+    var doorState: DoorState
+    // ключевое слово static указывает на то, что это свойство класса
+    static var carCount = 0
+
+    init(color: Color, mp3: Bool, transmission: Transmission,km: Double, doorState: DoorState) {
+        self.color = color
+        self.mp3 = mp3
+        self.transmission = transmission
+        self.km = km
+        self.doorState = doorState
+        // в конструкторе будем увеличивать переменную на 1
+        Honda.carCount += 1
+    }
+    static func countInfo(){
+        print("Выпущено \(carCount) автомобилей")
+    }
+
+    func carInfo() {
+       print("Car is Honda, \ncolor is \(color), \nmp3 availaibility is \(mp3), \ntransmission is \(transmission), \ndoors are \(doorState).")
+   }
+
+}
+
+
+
+
+let car1 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
+let car2 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
+let car3 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
+let car4 = Honda(color: .black, mp3: true, transmission: .auto, km: 0, doorState: .close)
+
+
+
+car1.carInfo()
+print(Honda.carCount)     // 4
+Honda.countInfo()        // Выпущено 4 автомобилей
 
 
 ////Пример 4. Вспомогательные конструкторы.
@@ -146,70 +146,70 @@ import Foundation
 
 //Пример 5. Наследование
 
-enum HondaDoorState {
-    case open, close
-}
-enum Transmission {
-    case manual, auto
-}
-enum Color {
-    case white, black
-}
-enum HondaHatchState {
-    case open, close
-}
-
-class Honda {
-    let color: Color
-    let mp3: Bool
-    let transmission: Transmission
-    var km: Double
-    var doorState: HondaDoorState
-    init(color: Color, mp3: Bool, transmission: Transmission, km: Double, doorState: HondaDoorState) {
-        self.color = color
-        self.mp3 = mp3
-        self.transmission = transmission
-        self.km = km
-        self.doorState = doorState
-    }
-}
-class HondaSport: Honda { // наследуем HondaSport от Honda
-    // мы ничего не пишем здесь
-    // и наш новый класс имеет все те же свойства и методы, что и его родитель
-    var hatchState : HondaHatchState // Новое свойство
-
-
-    init(color: Color, mp3: Bool, transmission: Transmission, km: Double, doorState: HondaDoorState, hatchState: HondaHatchState){
-     self.hatchState = hatchState // инициализируем новое свойство
-          // используем конструктор из родителя, чтобы завершить инициализацию класса
-        super.init(color: color, mp3: mp3, transmission: transmission, km: km, doorState: doorState)
-    }
-
-    func openHatch() {                  // Новый метод
-        hatchState = .open
-    }
-
-    func closeHatch() {                // Новый метод
-        hatchState = .close
-    }
-
-}
-var car1 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
-// мы можем создать объект спорткара
-var sportCar1 = HondaSport(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close, hatchState: .close)
-
-
-class DecorativeHondaSport: HondaSport { // переопределить метод открытия люка
-    override func openHatch() {
-        super.openHatch()             // вызываем реализацию родителя
-        print("Пиииип, открывать люк запрещено")// произносим уведомление
-    }
-
-
-
-}
-
-var superHondaSportCar = DecorativeHondaSport(color: .black, mp3: true, transmission: .auto, km: 0, doorState: .close, hatchState: .close)
+//enum HondaDoorState {
+//    case open, close
+//}
+//enum Transmission {
+//    case manual, auto
+//}
+//enum Color {
+//    case white, black
+//}
+//enum HondaHatchState {
+//    case open, close
+//}
+//
+//class Honda {
+//    let color: Color
+//    let mp3: Bool
+//    let transmission: Transmission
+//    var km: Double
+//    var doorState: HondaDoorState
+//    init(color: Color, mp3: Bool, transmission: Transmission, km: Double, doorState: HondaDoorState) {
+//        self.color = color
+//        self.mp3 = mp3
+//        self.transmission = transmission
+//        self.km = km
+//        self.doorState = doorState
+//    }
+//}
+//class HondaSport: Honda { // наследуем HondaSport от Honda
+//    // мы ничего не пишем здесь
+//    // и наш новый класс имеет все те же свойства и методы, что и его родитель
+//    var hatchState : HondaHatchState // Новое свойство
+//
+//
+//    init(color: Color, mp3: Bool, transmission: Transmission, km: Double, doorState: HondaDoorState, hatchState: HondaHatchState){
+//     self.hatchState = hatchState // инициализируем новое свойство
+//          // используем конструктор из родителя, чтобы завершить инициализацию класса
+//        super.init(color: color, mp3: mp3, transmission: transmission, km: km, doorState: doorState)
+//    }
+//
+//    func openHatch() {                  // Новый метод
+//        hatchState = .open
+//    }
+//
+//    func closeHatch() {                // Новый метод
+//        hatchState = .close
+//    }
+//
+//}
+//var car1 = Honda(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close)
+//// мы можем создать объект спорткара
+//var sportCar1 = HondaSport(color: .white, mp3: true, transmission: .auto, km: 0.0, doorState: .close, hatchState: .close)
+//
+//
+//class DecorativeHondaSport: HondaSport { // переопределить метод открытия люка
+//    override func openHatch() {
+//        super.openHatch()             // вызываем реализацию родителя
+//        print("Пиииип, открывать люк запрещено")// произносим уведомление
+//    }
+//
+//
+//
+//}
+//
+//var superHondaSportCar = DecorativeHondaSport(color: .black, mp3: true, transmission: .auto, km: 0, doorState: .close, hatchState: .close)
 
 
 
