@@ -14,3 +14,131 @@ import Foundation
 //Вторая проблема состоит в том, что в массив нельзя класть разные типы объектов. Но наш план с базовым классом решает и ее. Если в качестве типа массива указать базовый класс, в него можно добавлять все объекты классов, унаследованных от него.
 
 
+
+/*class Figure {                                // базовый класс
+    func calculatePerimiter() -> Double {    // расчет периметра
+        return 0
+    }
+}
+class Rectangle: Figure {
+    var sideA: Double
+    var sideB: Double
+    override func calculatePerimiter() -> Double {
+        return 2.0 * (sideA + sideB)
+    }
+    init(sideA: Double, sideB: Double) {
+        self.sideA = sideA
+        self.sideB = sideB
+        //figures.append(Figure)
+    }
+}
+class Circle: Figure {
+    var radius: Double
+    override func calculatePerimiter() -> Double {
+        return 2.0 * M_PI * radius
+    }
+    init(radius: Double) {
+        self.radius = radius
+        //figures.append(Figure)
+    }
+}
+var figures: [Figure] = [              // Можно создать массив базового класса
+    Rectangle(sideA: 10.0, sideB: 12.0),  // и добавлять туда наследников
+    Circle(radius: 18)                      // разных наследников
+]
+for figure in figures {
+    // считаем периметр и выводим в консоль
+    let perimiter = figure.calculatePerimiter()
+    print(perimiter)
+}*/
+
+//бесполезный класс «Figure». Его нигде нельзя использовать, объекты этого класса ничего не делают. Давайте избавимся от него, а на помощь нам придут протоколы.
+
+
+protocol Figure {                            // Протокол
+    func calculatePerimeter() -> Double     // просто описание метода
+}
+class Rectangle: Figure {                  // имплементируем протокол
+    var sideA: Double
+    var sideB: Double
+    func calculatePerimeter() -> Double { // реализуем свойство, override не нужен
+        return 2.0 * (sideA + sideB)
+    }
+    init(sideA: Double, sideB: Double) {
+        self.sideA = sideA
+        self.sideB = sideB
+    }
+}
+class Circle: Figure {
+    var radius: Double
+    
+    func calculatePerimeter() -> Double {
+        return Double.pi * radius
+    }
+    init(radius: Double) {
+        self.radius = radius
+        //figures.append()
+    }
+}
+var figures: [Figure] = [               // Можно создать массив типа протокола
+    Rectangle(sideA: 10.0, sideB: 12.0),// и добавлять туда классы, имплементирующие протокол
+    Circle(radius: 18)
+]
+for figure in figures {
+    // считаем периметр и выводим в консоль
+    let perimiter = figure.calculatePerimeter()
+    print(perimiter)
+}
+
+//Протокол, в отличие от класса, не содержит каких-либо действий методов, он не может совершать никакой работы. Нельзя создать объект типа протокола. Это просто описание свойств и методов без их реализации.
+//Сила протоколов в том, что они объявляют стандарт. Любой ваш класс, структура или перечисление может принять этот стандарт и реализовать все, что описано в протоколе. Кроме того, вы можете использовать протокол для указания типа переменных или массивов. Это позволяет присваивать им значения любых типов, лишь бы эти типы имплементировали протокол.
+//Важно понимать, что протоколы не надо использовать для описания целых классов, в них следует описывать лишь какое-то конкретное поведение. Например, протокол расчета периметра никак не привязан к фигурам, и если у нас появится некий класс «House», мы можем имплементировать ему наш протокол для расчета его периметра. Так как протокол не имеет отношения к фигуре, давайте его переименуем. Он определяет поведение расчета периметра, и подходящим именем будет «perimterCalculatable». Теперь, если если какой-то класс имплементирует этот протокол, будет сразу понятно, что у него можно рассчитать периметр.
+
+
+
+//protocol PerimterCalculatable {           // Протокол
+//    func calculatePerimiter() -> Double  // просто описание метода
+//}
+//class House: PerimterCalculatable {     // у дома можно посчитать периметр
+//    var sideA: Double?
+//    var sideB: Double?
+//    func calculatePerimiter() -> Double {
+//        return 2.0 * (sideA! + sideB!)
+//    }
+//}
+//class Circle: PerimterCalculatable {   // у круга можно посчитать периметр
+//    var radius: Double!
+//
+//    func calculatePerimiter() -> Double {
+//        return Double.pi * radius
+//    }
+//
+//    init(radius: Double) {
+//        self.radius = radius
+//    }
+//}
+
+
+//Расширения
+//В отличие от классов и протоколов, расширение не является отдельной сущностью. Его нельзя создать, а потом применить. Но тем не менее, расширения очень полезны: они позволяют расширять функционал уже имеющихся классов без их изменения. Это означает, что мы можем взять абсолютно любой класс в приложении и добавить ему любые методы. Это работает даже с классами, которые определены в библиотеках и изменить их определение нет возможности.
+//Например, мы бы хотели добавить расчет диаметра кругу, не меняя сам класс. Нам достаточно написать для него расширение.
+
+//extension Circle {                    // используем ключевое слово extension
+//    func diameter() -> Double {     // и можем добавлять новые методы
+//        return radius * 2.0
+//    }
+//}
+//let circle = Circle(radius: 12)
+//circle.diameter()                  // 24
+
+//Расширения могут добавлять только новое поведение. Проще говоря, они могут добавлять методы, конструкторы (только вспомогательные), но не свойства. Правда, вычисляемые свойства все же являются поведением, так как не хранят значений, а только проводят вычисления. Так как метод расчета диаметрапериметра больше похож на свойство, давайте его перепишем.
+
+/*extension Circle {             // используем ключевое слово extension
+    var diameter: Double {   // теперь периметр – вычисляемое свойство
+        return radius * 2.0
+    }
+}
+let circle = Circle(radius: 12)
+circle.diameter ()             // 24*/
+
+
