@@ -201,7 +201,7 @@ var car2 = Car(vehicleType: .car, mark: "Volvo", model: "XC-70", productionYear:
 
 var tanker1 = TankCar(vehicleType: .tank, mark: "Man", model: "1200", productionYear: 2019, windows: .opened, engine: .off, doors: .closed, tanksNumber: .one, threeAxles: true)
 
-var tanker2 = TankCar(vehicleType: .tank, mark: "Iveco", model: "M5000", productionYear: 2018, windows: .opened, engine: .off, doors: .closed, tanksNumber: .one, threeAxles: false)
+var tanker2 = TankCar(vehicleType: .tank, mark: "Iveco", model: "M5000", productionYear: 2018, windows: .opened, engine: .off, doors: .closed, tanksNumber: .two, threeAxles: false)
 
 
 car1.startEngine()
