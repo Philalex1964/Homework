@@ -165,6 +165,7 @@ var truck1 = TrunkTruck(vehicleType: .truck, mark: .volvo, productionYear: 2018,
 
 
 
+
 vehicle1.startEngine()
 vehicle2.loadUnload()
 sportCar1.startEngine()
@@ -173,14 +174,24 @@ truck1.loadUnload()
 
 //6. Вывести значения свойств экземпляров в консоль.
 
-vehicle1.vehicleInfo()
-vehicle2.vehicleInfo()
-sportCar1.vehicleInfo()
-sportCar2.vehicleInfo()
-truck1.vehicleInfo()
+//vehicle1.vehicleInfo()
+//vehicle2.vehicleInfo()
+//sportCar1.vehicleInfo()
+//sportCar2.vehicleInfo()
+//truck1.vehicleInfo()
 
 
+var vehicles : [Vehicle] = [
+    vehicle1,
+    vehicle2,
+    sportCar1,
+    sportCar2,
+    truck1
+]
 
+for vehicle in vehicles {
+    let vehicleInfo = vehicle.vehicleInfo()
+    print(vehicleInfo)
+}
 
-    
 

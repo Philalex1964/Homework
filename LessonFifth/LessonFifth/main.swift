@@ -142,3 +142,27 @@ let circle = Circle(radius: 12)
 circle.diameter ()             // 24*/
 
 
+//Если вы реализуете протокол Togglable для структур или перечислений, то эта структура или перечисление может соответствовать протоколу предоставляя реализацию метода toggle(), который так же будет отмечен словом mutating.
+//
+//Пример ниже определяет перечисление OnOffSwitch. Это перечисление переключается между двумя состояниями, отмеченными двумя случаями перечислениям .on и .off. Реализация метода toggle перечисления отмечена словом mutating, чтобы соответствовать требованию протокола:
+
+protocol Togglable {
+    mutating func toggle()
+}
+
+
+enum OnOffSwitch: Togglable {
+    case off, on
+    mutating func toggle() {
+        switch self {
+        case .off:
+            self = .on
+        case .on:
+            self = .off
+        }
+    }
+}
+
+var lightSwitch = OnOffSwitch.off
+lightSwitch.toggle()
+print(lightSwitch)
