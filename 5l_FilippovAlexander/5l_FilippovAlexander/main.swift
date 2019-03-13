@@ -24,13 +24,13 @@ protocol Tooglable {
 }
 
 enum WindowsState: Tooglable {
-    case close, open
+    case closed, opened
     mutating func toogle() {
         switch self {
-        case .close:
-            self = .open
-        case .open:
-            self = .close
+        case .closed:
+            self = .opened
+        case .opened:
+            self = .closed
         }
     }
 }
@@ -51,13 +51,13 @@ enum EngineState: Tooglable {
 }
 
 enum DoorsState: Tooglable {
-    case close, open
+    case closed, opened
         mutating func toogle() {
             switch self {
-            case .close:
-                self = .open
-            case .open:
-                self = .close
+            case .closed:
+                self = .opened
+            case .opened:
+                self = .closed
             }
         }
 }
@@ -93,17 +93,17 @@ protocol VehicleProtocol {
 
 extension VehicleProtocol {
     mutating func shutDoors(){
-        doors = doors == .open ? .close : .close
+        doors = doors == .opened ? .closed : .closed
     }
 }
 
-//var doors = DoorsState.close
+//var doors = DoorsState.closed
 //doors.toogle()
 //print(doors)
 
 extension VehicleProtocol {
     mutating func shutWindow(){
-        windows = windows == .open ? .close : .close
+        windows = windows == .opened ? .closed : .closed
     }
 }
 
@@ -180,7 +180,7 @@ class TankCar : VehicleProtocol {
 extension Car: CustomStringConvertible {
     
     var description: String {
-        return "The car is: \n\(mark), model: \(model), \nproduced in \(productionYear), engine is \(engine) and turbo is \(turbo), \nand it has tunining and it's \(tuning)!"
+        return "The car is: \n\(mark), model: \(model), \nproduced in \(productionYear), engine is \(engine) \nand turbo is \(turbo), \ndoors are \(doors), \nand it has tunining and it's \(tuning)!"
     }
    
 }
@@ -188,10 +188,38 @@ extension Car: CustomStringConvertible {
 extension TankCar: CustomStringConvertible {
     
     var description: String {
-        return "The tanker is: \n\(mark), model: \(model), \nproduced in \(productionYear), engine is \(engine), \nand it has \(tanksNumber) tanks, \nand it has doors \(doors)!"
+        return "The tanker is: \n\(mark), model: \(model), \nproduced in \(productionYear), engine is \(engine), \nand it has \(tanksNumber) tanks, \nit has doors \(doors) and windows \(windows)!"
     }
     
 }
+
+//5. Создать несколько объектов каждого класса. Применить к ним различные действия.
+
+var car1 = Car(vehicleType: .car, mark: "Mercedes", model: "GL-500", productionYear: 2018, windows: .closed, engine: .off, doors: .closed, turbo: .off, tuning: true)
+
+var car2 = Car(vehicleType: .car, mark: "Volvo", model: "XC-70", productionYear: 2018, windows: .closed, engine: .off, doors: .opened, turbo: .off, tuning: true)
+
+var tanker1 = TankCar(vehicleType: .tank, mark: "Man", model: "1200", productionYear: 2019, windows: .opened, engine: .off, doors: .closed, tanksNumber: .one, threeAxles: true)
+
+var tanker2 = TankCar(vehicleType: .tank, mark: "Iveco", model: "M5000", productionYear: 2018, windows: .opened, engine: .off, doors: .closed, tanksNumber: .one, threeAxles: false)
+
+
+car1.startEngine()
+car2.shutDoors()
+
+tanker1.addTanksNumber()
+tanker2.shutWindow()
+tanker2.startEngine()
+
+
+//6. Вывести сами объекты в консоль.
+
+print(car1)
+print(car2)
+print(tanker1)
+print(tanker2)
+
+
 
 
 
