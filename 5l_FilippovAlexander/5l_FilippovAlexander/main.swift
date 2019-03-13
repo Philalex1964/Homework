@@ -183,6 +183,10 @@ extension Car: CustomStringConvertible {
         return "The car is: \n\(mark), model: \(model), \nproduced in \(productionYear), engine is \(engine) \nand turbo is \(turbo), \ndoors are \(doors), \nand it has tunining and it's \(tuning)!"
     }
    
+    func printDescription(){
+        print(description)
+    }
+    
 }
 
 extension TankCar: CustomStringConvertible {
@@ -191,6 +195,9 @@ extension TankCar: CustomStringConvertible {
         return "The tanker is: \n\(mark), model: \(model), \nproduced in \(productionYear), engine is \(engine), \nand it has \(tanksNumber) tanks, \nit has doors \(doors) and windows \(windows)!"
     }
     
+    func printDescription(){
+        print(description)
+    }
 }
 
 //5. Создать несколько объектов каждого класса. Применить к ним различные действия.
@@ -218,6 +225,7 @@ print(car1)
 print(car2)
 print(tanker1)
 print(tanker2)
+
 
 
 
