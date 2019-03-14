@@ -146,23 +146,24 @@ circle.diameter ()             // 24*/
 //
 //Пример ниже определяет перечисление OnOffSwitch. Это перечисление переключается между двумя состояниями, отмеченными двумя случаями перечислениям .on и .off. Реализация метода toggle перечисления отмечена словом mutating, чтобы соответствовать требованию протокола:
 
-protocol Togglable {
-    mutating func toggle()
-}
+//protocol Togglable {
+//    mutating func toggle()
+//}
+//
+//
+//enum OnOffSwitch: Togglable {
+//    case off, on
+//    mutating func toggle() {
+//        switch self {
+//        case .off:
+//            self = .on
+//        case .on:
+//            self = .off
+//        }
+//    }
+//}
+//
+//var lightSwitch = OnOffSwitch.off
+//lightSwitch.toggle()
+//print(lightSwitch)
 
-
-enum OnOffSwitch: Togglable {
-    case off, on
-    mutating func toggle() {
-        switch self {
-        case .off:
-            self = .on
-        case .on:
-            self = .off
-        }
-    }
-}
-
-var lightSwitch = OnOffSwitch.off
-lightSwitch.toggle()
-print(lightSwitch)

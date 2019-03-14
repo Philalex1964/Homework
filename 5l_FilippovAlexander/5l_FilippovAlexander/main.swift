@@ -19,13 +19,13 @@ import Foundation
 
 // 1. Создать протокол «Car» и описать свойства, общие для автомобилей, а также метод действия.
 
-protocol Tooglable {
-    mutating func toogle()
+protocol Togglable {
+    mutating func toggle()
 }
 
-enum WindowsState: Tooglable {
+enum WindowsState: Togglable {
     case closed, opened
-    mutating func toogle() {
+    mutating func toggle() {
         switch self {
         case .closed:
             self = .opened
@@ -34,13 +34,13 @@ enum WindowsState: Tooglable {
         }
     }
 }
-//var windowsState = WindowsState.open
-//windowsState.toogle()
+//var windowsState = WindowsState.opened
+//windowsState.toggle()
 //print(windowsState)
 
-enum EngineState: Tooglable {
+enum EngineState: Togglable {
     case on, off
-    mutating func toogle() {
+    mutating func toggle() {
         switch self {
         case .off:
             self = .on
@@ -50,9 +50,9 @@ enum EngineState: Tooglable {
     }
 }
 
-enum DoorsState: Tooglable {
+enum DoorsState: Togglable {
     case closed, opened
-        mutating func toogle() {
+        mutating func toggle() {
             switch self {
             case .closed:
                 self = .opened
@@ -226,7 +226,7 @@ print(car2)
 print(tanker1)
 print(tanker2)
 
-
+car1.printDescription()
 
 
 
