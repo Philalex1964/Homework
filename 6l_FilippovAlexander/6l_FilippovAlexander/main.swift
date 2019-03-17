@@ -123,14 +123,26 @@ struct StackAutopark<T: PassengerCapacity> {
         return passengerCapacity
         }
     
-    subscript(elements: Int ...) -> Int {
+    subscript(elements: Int ...) -> Int? {
         var passengerCapacity = 0
         
         for index in elements where index >= 0 && index < self.elements.count {
                     passengerCapacity += self.elements[index].passengerCapacity
             }
             return passengerCapacity
+        
+        for index in elements where index < 0 || index > self.elements.count {
+            passengerCapacity += self.elements[index].passengerCapacity
         }
+        return nil
+    
+        
+        }
+
+//Выше ^ пришлось поставить (-> Int?), чтобы использовать nil
+//3. * Добавить свой subscript, который будет возвращать nil в случае обращения к несуществующему индексу.
+
+    
     
     func pricePerPassenger() {
         let pricePerPassenger: Int = pricePerHour / passengerCapacity
@@ -214,12 +226,6 @@ print(stackPrice.sort{$0.pricePerHour > $1.pricePerHour}) //Почему-то so
 
 
 
-//func filter (stack2: [Any], passengerCapacity : (Int)  -> Bool){
-//    var tempArray = [Int]()
-//    for element in stack2 {
-//        if passengerCapacity(element as! Int){
-//            tempArray.append(element as! Int)
-//        }
-//    }
-//    return tempArray
-//}
+
+
+
