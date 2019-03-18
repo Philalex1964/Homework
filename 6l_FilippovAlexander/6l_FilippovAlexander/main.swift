@@ -132,10 +132,8 @@ struct StackAutopark<T: PassengerCapacity> {
             return passengerCapacity
         
         for index in elements where index < 0 || index > self.elements.count {
-            passengerCapacity += self.elements[index].passengerCapacity
+            return nil
         }
-        return nil
-    
         
         }
 
