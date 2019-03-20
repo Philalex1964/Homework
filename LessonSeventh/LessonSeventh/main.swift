@@ -99,7 +99,7 @@ factory.salary(atFio: "Брюс Вейн Бэтмэнович")// nil
 //Раньше мы упоминали ключевое слово «guard», но у нас не было с ним примеров. Это отличный шанс им воспользоваться, чтобы сделать код лаконичнее.
 
 
-class Factory {
+/*class Factory {
     private var employee = [
         "Иванов Иван Иванович": 3000,
         "Сидоров Сидор Сидорович": 12080,
@@ -119,7 +119,7 @@ class Factory {
     return totalSalary / employee.count
     }
 
-}
+}*/
 //Посмотрите, что изменилось. Мы заменили «if» на «guard» и вынесли код из вложенного блока. «Guard» очень похож на «if», но имеет другой синтаксис, а главное – семантическое отличие. Его часто называют охранным оператором, так как он охраняет ваш код от выполнения в тех случаях, когда он выполняться не должен.
 //«Guard» проверяет условие так же, как и «if», но если условие верно, он не выполняет никаких блоков, а просто переходит к основному коду, объявленному за ним. Если условие не верно, выполняется блок «else», в котором вы можете произвести какие-либо действия для обработки сложившейся ситуации. Самое главное – вы должны покинуть область видимости, например, если вы находитесь в методе, вы обязаны сделать «return». Такой синтаксис делает программу намного читабельнее.
 
@@ -234,12 +234,10 @@ struct Product{
 //    print("Произошла ошибка: \(error.localizedDescription)")
 //}
 //Теперь, когда мы совершаем покупку и происходит ошибка, мы получаем ее подробное описание.
-print(vendingMachine.vend(itemNamed: "Snikers"))
-print(vendingMachine.vend(itemNamed: "Candy Bar"))
-print(vendingMachine.vend(itemNamed: "Pretzels"))
 
 
 
+/*
 enum VendingMachineError: Error {            // ошибки автомата
     case invalidSelection                    // нет в ассортименте
     case outOfStock                          // нет в наличии
@@ -270,17 +268,17 @@ class VendingMachine {   // Хранилище
         // Если наша машина не знает такого товара вообще
         guard let item = inventory[name] else {
             // возвращаем nil вместо продукта и ошибку
-            return (nil, VendingMachineError.invalidSelection)
+            return (nil, .invalidSelection)
         }
         // Если товара нет в наличии
         guard item.count > 0 else {
             // возвращаем nil вместо продукта и ошибку
-            return (nil, VendingMachineError.outOfStock)
+            return (nil, .outOfStock)
         }
         // Если недостаточно денег
         guard item.price <= coinsDeposited else {
             // возвращаем nil вместо продукта и ошибку
-            return (nil, VendingMachineError.insufficientFunds(coinsNeeded: item.price - coinsDeposited))
+            return (nil, .insufficientFunds(coinsNeeded: item.price - coinsDeposited))
         }
         // продаем товар
         coinsDeposited -= item.price
@@ -296,10 +294,82 @@ let vendingMachine = VendingMachine()
 let sell1 = vendingMachine.vend(itemNamed: "Snikers")   // nil, invalidSelection
 let sell2 = vendingMachine.vend(itemNamed: "Candy Bar") // nil, (insufficientFunds, 12)
 let sell3 = vendingMachine.vend(itemNamed: "Pretzels") // Product("Pretzels"), nil
+
 if let product = sell1.0 {
     print("Мы купили: \(product.name)")
 } else if let error = sell1.1 {
     print("Произошла ошибка: \(error.localizedDescription)")
 }
 
-error.
+print(vendingMachine.vend(itemNamed: "Snikers"))
+print(vendingMachine.vend(itemNamed: "Candy Bar"))
+print(vendingMachine.vend(itemNamed: "Pretzels"))
+*/
+
+
+//Throws
+//В нашем примере все же есть недочеты. Во-первых, может произойти так, что мы не вернем ни ошибки, ни продукта. Во-вторых, при вызове метода покупки мы не видим явно, что он может вызывать ошибки. Да и возвращать такие кортежи не очень удобно. Специально для таких случаев есть ключевое слово «throws». Если пометить метод этим ключевым словом, мы однозначно покажем, что он может содержать ошибку и ее надо обработать. Мы просто не оставим пространства для маневра тому, что вызовет наш метод.
+//Все методы, помеченные как «throws», должны возвращать исключение. Исключения – это ошибки, имплементирующие протокол «Error», но не просто возвращаемые, а сгенерированные в исключительную ситуацию. Чтобы сгенерировать ошибку, необходимо  использовать ключевое слово «throw».
+//
+
+enum VendingMachineError: Error {            // ошибки автомата
+    case invalidSelection                    // нет в ассортименте
+    case outOfStock                          // нет в наличии
+    case insufficientFunds(coinsNeeded: Int) // недостаточно денег, передаем недостаточную сумму
+}
+
+struct Item {
+    var price: Int
+    var count: Int
+    let product: Product
+}
+// товар
+struct Product{
+    let name: String
+}
+// Вендинговая машина
+class VendingMachine {
+    // Хранилище
+    var inventory = [
+        "Candy Bar": Item(price: 12, count: 7, product: Product(name: "Candy Bar")),
+        "Chips": Item(price: 10, count: 4, product: Product(name: "Chips")),
+        "Pretzels": Item(price: 0, count: 11, product: Product(name: "Pretzels"))
+    ]
+    // Количество денег,  переданное покупателем
+    var coinsDeposited = 0
+    // продаем товар
+    // возвращаем продукт,
+    // но помечаем метод как «throws», это означает, что он может завершиться с ошибкой
+    func vend(itemNamed name: String) throws -> Product {
+        // Если наша машина не знает такого товара вообще,
+        guard let item = inventory[name] else {
+            // генерируем ошибку
+            throw VendingMachineError.invalidSelection
+        }
+        // если товара нет в наличии,
+        guard item.count > 0 else {
+            // генерируем ошибку
+            throw VendingMachineError.outOfStock
+        }
+        // если недостаточно денег,
+        guard item.price <= coinsDeposited else {
+            // генерируем ошибку
+            throw VendingMachineError.insufficientFunds(coinsNeeded: item.price - coinsDeposited)
+        }
+        // продаем товар
+        coinsDeposited -= item.price
+        var newItem = item
+        newItem.count -= 1
+        inventory[name] = newItem
+        // возвращаем продукт
+        return newItem.product
+    }
+}
+
+//Обратите внимание: продукт у нас не опционального типа, а обычного, но также указано ключевое слово «throws». Это означает, что метод всегда возвращает продукт, но во время этого выполнения может произойти ошибка и ее необходимо обработать.
+
+
+let vendingMachine = VendingMachine()
+let sell1 = vendingMachine.vend(itemNamed: "Snikers")
+let sell2 = vendingMachine.vend(itemNamed: "Candy Bar")
+let sell3 = vendingMachine.vend(itemNamed: "Pretzels") 
