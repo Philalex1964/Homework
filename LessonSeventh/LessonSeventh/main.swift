@@ -198,7 +198,7 @@ class VendingMachine {
         "Pretzels": Item(price: 0, count: 11, product: Product(name: "Pretzels"))
     ]
     // Количество денег, переданное покупателем
-    var coinsDeposited = 0
+    var coinsDeposited = 30
     // Продаем товар
     func vend(itemNamed name: String) -> (Product?, VendingMachineError?) { // Возвращаем кортеж из товара и ошибки
         // Если наша машина не знает такого товара вообще
@@ -235,3 +235,6 @@ if let product = sell1.0 {
     print("Произошла ошибка: \(error.localizedDescription)")
 }
 //Теперь, когда мы совершаем покупку и происходит ошибка, мы получаем ее подробное описание.
+print(vendingMachine.vend(itemNamed: "Snikers"))
+print(vendingMachine.vend(itemNamed: "Candy Bar"))
+print(vendingMachine.vend(itemNamed: "Pretzels"))
