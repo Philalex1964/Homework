@@ -5,72 +5,96 @@
 //  Created by Александр Филиппов on 19.03.2019.
 //  Copyright © 2019 Philalex. All rights reserved.
 //
+//1. Придумать класс, методы которого могут создавать непоправимые ошибки. Реализовать их с помощью try/catch.
+//
+//2. Придумать класс, методы которого могут завершаться неудачей. Реализовать их с использованием Error.
 
 import Foundation
 
-enum VendingMachineError: Error {            // ошибки автомата
-    case invalidSelection                    // нет в ассортименте
-    case outOfStock                          // нет в наличии
-    case insufficientFunds(coinsNeeded: Int) // недостаточно денег, передаем недостаточную сумму
+enum TicketSellerMachineError: Error {
+    case noSuchDestination
+    case noSeats
+    case insufficientFunds
+    case bankCardBlocked
+    
 }
 
-struct Item {
+struct Ticket {
     var price: Int
-    var count: Int
-    let product: Product
+    var seat: Int
+    let destination: Destination
 }
-// товар
-struct Product{
+
+struct Destination {
     let name: String
 }
 
-class VendingMachine {   // Хранилище
-    
-    var inventory = [
-        "Candy Bar": Item(price: 12, count: 7, product: Product(name: "Candy Bar")),
-        "Chips": Item(price: 10, count: 4, product: Product(name: "Chips")),
-        "Pretzels": Item(price: 0, count: 11, product: Product(name: "Pretzels"))
+class TicketSellerMachine {
+    var timeTable = [
+        "Paris": Ticket(price: 15000, seat: 0, destination: Destination(name: "Paris")),
+        "Beograd": Ticket(price: 10000, seat: 14, destination: Destination(name: "Beograd")),
+        "Nursultan =)": Ticket(price: 7000, seat: 100, destination: Destination(name: "Nursultan =)")),
+        "Singapore": Ticket(price: 40000, seat: 25, destination: Destination(name: "Singapore"))
     ]
-    // Количество денег, переданное покупателем
-    var coinsDeposited = 30
-    // Продаем товар
-    func vend(itemNamed name: String) -> (Product?, VendingMachineError?) { // Возвращаем кортеж из товара и ошибки
-        // Если наша машина не знает такого товара вообще
-        guard let item = inventory[name] else {
-            // возвращаем nil вместо продукта и ошибку
-            return (nil, .invalidSelection)
+    
+    var bankCardBlocked: Bool = false
+    
+    var fundsOnBankCard = 30000
+    
+    func sellTickets(ticketNamed name: String) throws -> Destination {
+        guard let ticket = timeTable[name] else {
+            throw TicketSellerMachineError.noSuchDestination
         }
-        // Если товара нет в наличии
-        guard item.count > 0 else {
-            // возвращаем nil вместо продукта и ошибку
-            return (nil, .outOfStock)
+        guard ticket.seat > 0 else {
+            throw TicketSellerMachineError.noSeats
         }
-        // Если недостаточно денег
-        guard item.price <= coinsDeposited else {
-            // возвращаем nil вместо продукта и ошибку
-            return (nil, .insufficientFunds(coinsNeeded: item.price - coinsDeposited))
+        guard ticket.price <= fundsOnBankCard else {
+            throw TicketSellerMachineError.insufficientFunds
         }
-        // продаем товар
-        coinsDeposited -= item.price
-        var newItem = item
-        newItem.count -= 1
-        inventory[name] = newItem
-        // Возвращаем nil вместо ошибки и продукт
-        return (newItem.product, nil)
+        guard bankCardBlocked != true else {
+            throw TicketSellerMachineError.bankCardBlocked
+        }
+        
+        
+        fundsOnBankCard -= ticket.price
+        var newTicket = ticket
+        newTicket.seat -= 1
+        timeTable[name] = newTicket
+        return newTicket.destination
     }
 }
 
-let vendingMachine = VendingMachine()
-let sell1 = vendingMachine.vend(itemNamed: "Snikers")   // nil, invalidSelection
-let sell2 = vendingMachine.vend(itemNamed: "Candy Bar") // nil, (insufficientFunds, 12)
-let sell3 = vendingMachine.vend(itemNamed: "Pretzels") // Product("Pretzels"), nil
 
-if let product = sell1.0 {
-    print("Мы купили: \(product.name)")
-} else if let error = sell1.1 {
-    print("Произошла ошибка: \(error.localizedDescription)")
+
+
+let ticketSellerMachine = TicketSellerMachine()
+
+do {
+let sell1 = try ticketSellerMachine.sellTickets(ticketNamed: "Beograd")
+print(sell1.name)
+print("Успешная продажа билета в \(sell1.name)")
+    
+let sell2 = try ticketSellerMachine.sellTickets(ticketNamed: "Astana =)")
+print(sell2.name)
+
+
+let sell3 = try ticketSellerMachine.sellTickets(ticketNamed: "Paris")
+print(sell2.name)
+
+let sell4 = try ticketSellerMachine.sellTickets(ticketNamed: "Singapore")
+print(sell4.name)
+
+} catch TicketSellerMachineError.noSeats {
+    print("На данном направлении нет билетов.")
+} catch TicketSellerMachineError.noSuchDestination {
+    print("Нет такого города - Астана =). Вчера переименовали в Нурсултан =).")
+} catch TicketSellerMachineError.insufficientFunds {
+    print("На данном направлении нет билетов.")
+} catch TicketSellerMachineError.bankCardBlocked {
+    print("Ваша карта заблокирована.")
+} catch {
+    print(error.localizedDescription)
 }
 
-print(vendingMachine.vend(itemNamed: "Snikers"))
-print(vendingMachine.vend(itemNamed: "Candy Bar"))
-print(vendingMachine.vend(itemNamed: "Pretzels"))
+
+
