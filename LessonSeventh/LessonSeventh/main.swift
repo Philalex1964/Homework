@@ -128,7 +128,7 @@ class Factory {
 //Давайте напишем еще один пример, который рекомендуют в Apple. Это простой вендинговый автомат: у нас есть продукты, позиции в наличии и само хранилище в автомате. Покупатель бросает монетки и заказывает товар. Но что, если продукта нет в наличии, или он вообще не продается в нашем автомате, или недостаточно денег? Тогда мы по аналогии с прошлым примером вернем nil.
 
 // позиции в автомате
-struct Item {
+/*struct Item {
     var price: Int
     var count: Int
     let product: Product
@@ -136,7 +136,7 @@ struct Item {
 // товар
 struct Product{
     let name: String
-}
+}*/
 // вендинговая машина
 //class VendingMachine {
 //    // хранилище
@@ -180,18 +180,84 @@ struct Product{
 //Посмотрите внимательно: мы попробовали купить несколько товаров, но все попытки завершились неудачей. Каких-то товаров нет в ассортименте, других – в наличии, и денег мы не положили, но мы понятия не имеем, что именно сделали не так, ведь нам всегда возвращается nil без каких-либо пояснений. Вариант обработки ошибок с возвращением nil не очень подходит для случаев, когда нам необходимо получить не только ошибку, но и пояснение, что именно пошло не так.
 //Для таких случаев у нас есть специальный протокол «Error». Он применяется к перечислениям, превращая их в перечисление вариантов ошибок. Например, ошибки для нашего автомата будут выглядеть так.
 
+/*enum VendingMachineError: Error {            // ошибки автомата
+    case invalidSelection                    // нет в ассортименте
+    case outOfStock                          // нет в наличии
+    case insufficientFunds(coinsNeeded: Int) // недостаточно денег, передаем недостаточную сумму
+}*/
+
+//Теперь перепишем пример. Во-первых, функция продажи будет возвращать кортеж из продукта и ошибки. Оба значения опциональные, ведь если есть ошибка, нет продукта, и наоборот. После покупки товара мы проверим наличие продукта. Если его нет, проверим ошибку, чтобы выяснить, что пошло не так.
+// Вендинговая машина
+
+//class VendingMachine {
+//    // Хранилище
+//    var inventory = [
+//        "Candy Bar": Item(price: 12, count: 7, product: Product(name: "Candy Bar")),
+//        "Chips": Item(price: 10, count: 4, product: Product(name: "Chips")),
+//        "Pretzels": Item(price: 0, count: 11, product: Product(name: "Pretzels"))
+//    ]
+//    // Количество денег, переданное покупателем
+//    var coinsDeposited = 30
+//    // Продаем товар
+//    func vend(itemNamed name: String) -> (Product?, VendingMachineError?) { // Возвращаем кортеж из товара и ошибки
+//        // Если наша машина не знает такого товара вообще
+//        guard let item = inventory[name] else {
+//            // возвращаем nil вместо продукта и ошибку
+//            return (nil, VendingMachineError.invalidSelection)
+//        }
+//        // Если товара нет в наличии
+//        guard item.count > 0 else {
+//            // возвращаем nil вместо продукта и ошибку
+//            return (nil, VendingMachineError.outOfStock)
+//        }
+//        // Если недостаточно денег
+//        guard item.price <= coinsDeposited else {
+//            // возвращаем nil вместо продукта и ошибку
+//            return (nil, VendingMachineError.insufficientFunds(coinsNeeded: item.price - coinsDeposited))
+//        }
+//        // продаем товар
+//        coinsDeposited -= item.price
+//        var newItem = item
+//        newItem.count -= 1
+//        inventory[name] = newItem
+//        // Возвращаем nil вместо ошибки и продукт
+//        return (newItem.product, nil)
+//    }
+//}
+//let vendingMachine = VendingMachine()
+//let sell1 = vendingMachine.vend(itemNamed: "Snikers")   // nil, invalidSelection
+//let sell2 = vendingMachine.vend(itemNamed: "Candy Bar") // nil, (insufficientFunds, 12)
+//let sell3 = vendingMachine.vend(itemNamed: "Pretzels") // Product("Pretzels"), nil
+//if let product = sell1.0 {
+//    print("Мы купили: \(product.name)")
+//} else if let error = sell1.1 {
+//    print("Произошла ошибка: \(error.localizedDescription)")
+//}
+//Теперь, когда мы совершаем покупку и происходит ошибка, мы получаем ее подробное описание.
+print(vendingMachine.vend(itemNamed: "Snikers"))
+print(vendingMachine.vend(itemNamed: "Candy Bar"))
+print(vendingMachine.vend(itemNamed: "Pretzels"))
+
+
+
 enum VendingMachineError: Error {            // ошибки автомата
-    
     case invalidSelection                    // нет в ассортименте
     case outOfStock                          // нет в наличии
     case insufficientFunds(coinsNeeded: Int) // недостаточно денег, передаем недостаточную сумму
 }
 
-//Теперь перепишем пример. Во-первых, функция продажи будет возвращать кортеж из продукта и ошибки. Оба значения опциональные, ведь если есть ошибка, нет продукта, и наоборот. После покупки товара мы проверим наличие продукта. Если его нет, проверим ошибку, чтобы выяснить, что пошло не так.
-// Вендинговая машина
+struct Item {
+    var price: Int
+    var count: Int
+    let product: Product
+}
+// товар
+struct Product{
+    let name: String
+}
 
-class VendingMachine {
-    // Хранилище
+class VendingMachine {   // Хранилище
+    
     var inventory = [
         "Candy Bar": Item(price: 12, count: 7, product: Product(name: "Candy Bar")),
         "Chips": Item(price: 10, count: 4, product: Product(name: "Chips")),
@@ -225,6 +291,7 @@ class VendingMachine {
         return (newItem.product, nil)
     }
 }
+
 let vendingMachine = VendingMachine()
 let sell1 = vendingMachine.vend(itemNamed: "Snikers")   // nil, invalidSelection
 let sell2 = vendingMachine.vend(itemNamed: "Candy Bar") // nil, (insufficientFunds, 12)
@@ -234,7 +301,5 @@ if let product = sell1.0 {
 } else if let error = sell1.1 {
     print("Произошла ошибка: \(error.localizedDescription)")
 }
-//Теперь, когда мы совершаем покупку и происходит ошибка, мы получаем ее подробное описание.
-print(vendingMachine.vend(itemNamed: "Snikers"))
-print(vendingMachine.vend(itemNamed: "Candy Bar"))
-print(vendingMachine.vend(itemNamed: "Pretzels"))
+
+error.
