@@ -2,6 +2,19 @@
 //  main.swift
 //  7l_FilippovAlexander
 //
+<<<<<<< HEAD
+=======
+//  Created by Александр Филиппов on 21.03.2019.
+//  Copyright © 2019 Philalex. All rights reserved.
+//
+
+import Foundation
+
+//
+//  main.swift
+//  7l_FilippovAlexander
+//
+>>>>>>> 7l_FilippovAlex
 //  Created by Александр Филиппов on 19.03.2019.
 //  Copyright © 2019 Philalex. All rights reserved.
 //
@@ -70,6 +83,7 @@ class TicketSellerMachine {
 let ticketSellerMachine = TicketSellerMachine()
 
 do {
+<<<<<<< HEAD
 let sell1 = try ticketSellerMachine.sellTickets(ticketNamed: "Beograd")
 print(sell1.name)
 print("Успешная продажа билета в \(sell1.name)")
@@ -84,6 +98,22 @@ print(sell2.name)
 let sell4 = try ticketSellerMachine.sellTickets(ticketNamed: "Singapore")
 print(sell4.name)
 
+=======
+    let sell1 = try ticketSellerMachine.sellTickets(ticketNamed: "Beograd")
+    print(sell1.name)
+    print("Успешная продажа билета в \(sell1.name)")
+    
+    let sell2 = try ticketSellerMachine.sellTickets(ticketNamed: "Astana =)")
+    print(sell2.name)
+    
+    
+    let sell3 = try ticketSellerMachine.sellTickets(ticketNamed: "Paris")
+    print(sell2.name)
+    
+    let sell4 = try ticketSellerMachine.sellTickets(ticketNamed: "Singapore")
+    print(sell4.name)
+    
+>>>>>>> 7l_FilippovAlex
 } catch TicketSellerMachineError.noSeats {
     print("На данном направлении нет билетов.")
 } catch TicketSellerMachineError.noSuchDestination {
@@ -96,5 +126,8 @@ print(sell4.name)
     print(error.localizedDescription)
 }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7l_FilippovAlex
