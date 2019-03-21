@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		2C40E17322369E5F005DF12F /* LessonFifth */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = LessonFifth; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C40E17622369E5F005DF12F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		2C40E17F2236B04F005DF12F /* 4l_FilippovAlexander */ = {isa = PBXFileReference; lastKnownFileType = folder; name = 4l_FilippovAlexander; path = ../4l_FilippovAlexander; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +42,7 @@
 		2C40E16A22369E5F005DF12F = {
 			isa = PBXGroup;
 			children = (
+				2C40E17F2236B04F005DF12F /* 4l_FilippovAlexander */,
 				2C40E17522369E5F005DF12F /* LessonFifth */,
 				2C40E17422369E5F005DF12F /* Products */,
 			);
