@@ -171,14 +171,16 @@ struct Car {
     var km : Int
     var doorState : DoorState
     
-    init(color: String, mp3: Bool, transmission: Transmission, km: Int, doorState: DoorState) {
+    let car1 = Car(mark: <#T##String#>, color: <#T##String#>, mp3: <#T##Bool#>, transmission: .auto, km: <#T##Int#>, doorState: <#T##DoorState#>)
+    
+   /* init(color: String, mp3: Bool, transmission: Transmission, km: Int, doorState: DoorState) {
         mark = "Honda"
         self.color = color
         self.mp3 = mp3
         self.transmission = transmission
         self.km = km
         self.doorState = doorState
-    }
+    }*/
     
     mutating func addKm(value : Int){
         km += value
