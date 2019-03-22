@@ -3,7 +3,7 @@ import SpriteKit
 
 class Snake : SKShapeNode {
     var body = [SnakeBodyPart]()
-    let moveSpeed = 125.0
+    let moveSpeed = 50.0
     var angle: CGFloat = 0.0
     
     convenience init(atPoint point: CGPoint) {
