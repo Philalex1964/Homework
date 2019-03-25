@@ -1,8 +1,8 @@
 //
 //  GameScene.swift
-//  Snake
+//  Snake1
 //
-//  Created by Александр Филиппов on 23.03.2019.
+//  Created by Александр Филиппов on 24.03.2019.
 //  Copyright © 2019 Philalex. All rights reserved.
 //
 
@@ -11,7 +11,6 @@ import GameplayKit
 
 class GameScene: SKScene {
     var snake: Snake?
-
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -34,7 +33,7 @@ class GameScene: SKScene {
         
         let clockwiseButton = SKShapeNode()
         clockwiseButton.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
-        clockwiseButton.position = CGPoint(x: view.scene!.frame.maxX - 75, y: view.scene!.frame.minY + 30)
+        clockwiseButton.position = CGPoint(x: view.scene!.frame.maxX - 80, y: view.scene!.frame.minY + 30)
         clockwiseButton.fillColor = UIColor.white
         clockwiseButton.strokeColor = UIColor.white
         clockwiseButton.lineWidth = 10
@@ -42,9 +41,8 @@ class GameScene: SKScene {
         
         self.addChild(clockwiseButton)
         
-        
-        
         createApple()
+        
         snake = Snake(atPoint: CGPoint(x: view.scene!.frame.midX, y: view.scene!.frame.midY))
         self.addChild(snake!)
     }
@@ -63,11 +61,6 @@ class GameScene: SKScene {
                 snake?.moveClockwise()
             }
         }
-        
-        // устанавливаем категорию взаимодействия с другими объектами
-        self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
-        // устанавливаем категории, с которыми будут пересекаться края сцены
-        self.physicsBody?.contactTestBitMask = CollisionCategories.SnakeHead
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -78,7 +71,6 @@ class GameScene: SKScene {
             }
             touchedNode.fillColor = .white
         }
-       
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -89,26 +81,18 @@ class GameScene: SKScene {
         snake!.move()
     }
     
-    func createApple() {
-        let randX = CGFloat(arc4random_uniform(UInt32(view!.scene!.frame.maxX - 10)) + 1)
-        let randY = CGFloat(arc4random_uniform(UInt32(view!.scene!.frame.maxY - 40)) + 1)
+    func createApple(){
+        let randX = CGFloat(arc4random_uniform(UInt32(view!.scene!.frame.maxX - 5)) + 1)
+        let randY = CGFloat(arc4random_uniform(UInt32(view!.scene!.frame.maxY - 35)) + 1)
         let apple = Apple(position: CGPoint(x: randX, y: randY))
         self.addChild(apple)
     }
-    
-//    func startNewGame() {
-//        createApple()
-//        snake = Snake(atPoint: CGPoint(x: view!.scene!.frame.midX, y: view!.scene!.frame.midY))
-//        self.addChild(snake!)
-//    }
 }
-
-
 
 extension GameScene : SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
-        let bodies = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        let collisionObject = bodies ^ CollisionCategories.SnakeHead
+        let bodyes = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        let collisionObject = bodyes ^ CollisionCategories.SnakeHead
         switch collisionObject {
         case CollisionCategories.Apple:
             snake?.addBodyPart()
@@ -118,13 +102,7 @@ extension GameScene : SKPhysicsContactDelegate {
         case CollisionCategories.Snake:
             break
         case CollisionCategories.EdgeBody:
-            var apple: Apple?
-            let body = contact.bodyB.node is Snake ? contact.bodyB.node : contact.bodyA.node
-            snake?.removeFromParent()
-            apple?.removeFromParent()
-            snake = Snake(atPoint: CGPoint(x: view!.scene!.frame.midX, y: view!.scene!.frame.midY))
-            self.addChild(snake!)
-            
+            break
         default:
             break
         }
@@ -135,10 +113,6 @@ struct CollisionCategories {
     static let Snake: UInt32 = 0x1 << 0
     static let SnakeHead: UInt32 = 0x1 << 1
     static let Apple: UInt32 = 0x1 << 2
-    static let EdgeBody: UInt32 = 0x1 << 3  
+    static let EdgeBody: UInt32 = 0x1 << 3
 }
 
-
-
-    
-    
