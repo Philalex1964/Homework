@@ -230,185 +230,205 @@ import Foundation
 
 
 
-struct QueueIterator<T> : IteratorProtocol {
-    private let values: [T]
-    private var index: Int?
-    
-    init(_ values: [T]) {
-        self.values = values
-    }
-    
-    private func nextIndex(for index: Int?) -> Int? {
-        if let index = index, index < self.values.count - 1 {
-            return index + 1
-        }
-        if index == nil, !self.values.isEmpty{
-            return 0
-        }
-        return nil
-    }
-    
-    mutating func next() -> T? {
-        if let index = self.nextIndex(for: self.index){
-            self.index = index
-            return self.values[index]
-        }
-        return nil
-    }
-}
+//struct QueueIterator<T> : IteratorProtocol {
+//    private let values: [T]
+//    private var index: Int?
+//
+//    init(_ values: [T]) {
+//        self.values = values
+//    }
+//
+//    private func nextIndex(for index: Int?) -> Int? {
+//        if let index = index, index < self.values.count - 1 {
+//            return index + 1
+//        }
+//        if index == nil, !self.values.isEmpty{
+//            return 0
+//        }
+//        return nil
+//    }
+//
+//    mutating func next() -> T? {
+//        if let index = self.nextIndex(for: self.index){
+//            self.index = index
+//            return self.values[index]
+//        }
+//        return nil
+//    }
+//}
+//
+//struct Queue<T> : Sequence where T : Comparable {
+//    private var items = [T]()
+//
+//    func makeIterator() -> QueueIterator<T> {
+//        return QueueIterator<T>(items)
+//    }
+//
+//    var count: Int{
+//        return items.count
+//    }
+//
+//    //add item to queue
+//    mutating func enqueue(_ item:T) {
+//        items.append(item)
+//    }
+//
+//    // return first queue item removing it
+//    mutating func dequeue() -> T? {
+//        return items.count > 0 ? items.removeFirst() : nil
+//    }
+//
+//    //return first queue item without removing
+//    func peek() -> T? {
+//        return items.first
+//    }
+//
+//    // return item by index or nil if it is out of range
+//    subscript (index: Int) -> T? {
+//        if (0..<items.count).contains(index){
+//            return items[index]
+//        }
+//        return nil
+//    }
+//
+//    //return sorted array, based on queue
+//    func sorted(closure: (T, T) -> Bool) -> [T] {
+//        return items.sorted(by: closure)
+//    }
+//
+//    // do action with each queue item
+//    func forEach(closure: (T) -> Void) {
+//        return items.forEach(closure)
+//    }
+//
+//}
+//
+//// Test classes conforming to Comparable protocol
+//class Area: Comparable, CustomStringConvertible {
+//
+//    var area: Double {
+//        return getArea()
+//    }
+//
+//    func getArea() -> Double {
+//        return 0.0
+//    }
+//
+//    static func == (a1: Area, a2: Area) -> Bool {
+//        return a1.area == a2.area
+//    }
+//
+//    static func < (a1: Area, a2: Area) -> Bool {
+//        return a1.area < a2.area
+//    }
+//
+//    static func > (a1: Area, a2: Area) -> Bool {
+//        return a1.area > a2.area
+//    }
+//
+//    var description: String {
+//        return "Area=\(Decimal(area))"
+//    }
+//}
+//
+//class Rectangle : Area {
+//    var sideA: Int = 0
+//    var sideB: Int = 0
+//    override func getArea() -> Double {
+//        return Double(sideA * sideB)
+//    }
+//
+//    init(_ side1: Int, _ side2: Int) {
+//        sideA = side1 ; sideB = side2
+//    }
+//
+//    override var description: String {
+//        return "Rect" + super.description
+//    }
+//}
+//
+//class Circle: Area {
+//    var radius: Int = 0
+//    override func getArea() -> Double {
+//        return (Double.pi * pow(Double(radius), 2)).rounded()
+//    }
+//    init(_ rad: Int) {
+//        radius = rad
+//    }
+//    override var description: String {
+//        return "Circle" + super.description
+//    }
+//}
+//
+////Test
+//var queue = Queue<Area>()
+//var area: Area?
+//// test enqueue
+//queue.enqueue(Rectangle(100, 150))
+//queue.enqueue(Rectangle(10, 15))
+//queue.enqueue(Rectangle(5, 25))
+//queue.enqueue(Circle(10))
+//queue.enqueue(Circle(5))
+//
+//for element in queue {
+//    print(element.area)
+//}
+//
+//print("Initial queue with 5 items:\n\(queue)")
+//// test dequeue
+//area = queue.dequeue()
+//print("\nRemoved \(area!)")
+//print("Queue after 1 item dequeue:|n|(queue)")
+//// test foreach function
+//print("\nPrint each time:")
+//queue.forEach {
+//   item in print("Item \(item)")
+//}
+//
+//// test sorting
+//queue.sorted { (area1, area2) -> Bool in
+//    return area1 > area2
+//}
+//
+//var arr = queue.sorted { $0 > $1 }
+//
+//
+//print("\nAreas descending: \(arr)")
+//arr = queue.sorted { $0 < $1 }
+//print("\nAreas ascending: \(arr)")
+//// test access by index
+//area = queue[0]
+//print("\nNewest item: \(area!)")
+//area = queue[queue.count  - 1]
+//print("\nNewest item: \(area!)")
+//area = queue[125]
+//if let a = area {
+//    print("\nUnexisted index item: \(a)")
+//} else {
+//    print("\nUnexisted index item: nil")
+//}
 
-struct Queue<T> : Sequence where T : Comparable {
-    private var items = [T]()
-    
-    func makeIterator() -> QueueIterator<T> {
-        return QueueIterator<T>(items)
-    }
+//var num1 = 2
+//
+//var num2 = 4
+//
+//num1 = num1 << 1
+//
+//num2 = num2 >> 1
+//
+//print(num1, num2)
+//let strings = ["h", "w", "!"]
+//
+//var i = 0
+//repeat{
+//    print(strings[i])
+//    i += 1
+//} while i < 2
 
-    var count: Int{
-        return items.count
-    }
-    
-    //add item to queue
-    mutating func enqueue(_ item:T) {
-        items.append(item)
-    }
-    
-    // return first queue item removing it
-    mutating func dequeue() -> T? {
-        return items.count > 0 ? items.removeFirst() : nil
-    }
+//var num : Int
+//if let x = num {
+//    print(x)
+//}
 
-    //return first queue item without removing
-    func peek() -> T? {
-        return items.first
-    }
-    
-    // return item by index or nil if it is out of range
-    subscript (index: Int) -> T? {
-        if (0..<items.count).contains(index){
-            return items[index]
-        }
-        return nil
-    }
-    
-    //return sorted array, based on queue
-    func sorted(closure: (T, T) -> Bool) -> [T] {
-        return items.sorted(by: closure)
-    }
-    
-    // do action with each queue item
-    func forEach(closure: (T) -> Void) {
-        return items.forEach(closure)
-    }
-
-}
-
-// Test classes conforming to Comparable protocol
-class Area: Comparable, CustomStringConvertible {
-    
-    var area: Double {
-        return getArea()
-    }
-    
-    func getArea() -> Double {
-        return 0.0
-    }
-    
-    static func == (a1: Area, a2: Area) -> Bool {
-        return a1.area == a2.area
-    }
-    
-    static func < (a1: Area, a2: Area) -> Bool {
-        return a1.area < a2.area
-    }
-    
-    static func > (a1: Area, a2: Area) -> Bool {
-        return a1.area > a2.area
-    }
-    
-    var description: String {
-        return "Area=\(Decimal(area))"
-    }
-}
-
-class Rectangle : Area {
-    var sideA: Int = 0
-    var sideB: Int = 0
-    override func getArea() -> Double {
-        return Double(sideA * sideB)
-    }
-    
-    init(_ side1: Int, _ side2: Int) {
-        sideA = side1 ; sideB = side2
-    }
-    
-    override var description: String {
-        return "Rect" + super.description
-    }
-}
-
-class Circle: Area {
-    var radius: Int = 0
-    override func getArea() -> Double {
-        return (Double.pi * pow(Double(radius), 2)).rounded()
-    }
-    init(_ rad: Int) {
-        radius = rad
-    }
-    override var description: String {
-        return "Circle" + super.description
-    }
-}
-
-//Test
-var queue = Queue<Area>()
-var area: Area?
-// test enqueue
-queue.enqueue(Rectangle(100, 150))
-queue.enqueue(Rectangle(10, 15))
-queue.enqueue(Rectangle(5, 25))
-queue.enqueue(Circle(10))
-queue.enqueue(Circle(5))
-
-for element in queue {
-    print(element.area)
-}
-
-print("Initial queue with 5 items:\n\(queue)")
-// test dequeue
-area = queue.dequeue()
-print("\nRemoved \(area!)")
-print("Queue after 1 item dequeue:|n|(queue)")
-// test foreach function
-print("\nPrint each time:")
-queue.forEach {
-   item in print("Item \(item)")
-}
-
-// test sorting
-queue.sorted { (area1, area2) -> Bool in
-    return area1 > area2
-}
-
-var arr = queue.sorted { $0 > $1 }
-
-
-print("\nAreas descending: \(arr)")
-arr = queue.sorted { $0 < $1 }
-print("\nAreas ascending: \(arr)")
-// test access by index
-area = queue[0]
-print("\nNewest item: \(area!)")
-area = queue[queue.count  - 1]
-print("\nNewest item: \(area!)")
-area = queue[125]
-if let a = area {
-    print("\nUnexisted index item: \(a)")
-} else {
-    print("\nUnexisted index item: nil")
-}
-
-
-
-
-
+let text = ["h", ",", "w"]
+print(text[3])
