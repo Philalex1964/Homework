@@ -11,8 +11,6 @@ import GameplayKit
 
 class GameScene: SKScene {
     var snake: Snake?
-    //var apple: Apple?
-
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
@@ -22,6 +20,9 @@ class GameScene: SKScene {
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         physicsBody?.allowsRotation = false
         view.showsPhysics = true
+        self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
+        self.physicsBody?.contactTestBitMask = CollisionCategories.SnakeHead
+
         
         let counterClockwiseButton = SKShapeNode()
         counterClockwiseButton.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 45, height: 45)).cgPath
@@ -43,12 +44,16 @@ class GameScene: SKScene {
         
         self.addChild(clockwiseButton)
         
-        
-        
         createApple()
         snake = Snake(atPoint: CGPoint(x: view.scene!.frame.midX, y: view.scene!.frame.midY))
         self.addChild(snake!)
     }
+    
+    func startNewGame() {
+        removeAllChildren()
+        self.didMove(to: view!)
+    }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
@@ -65,8 +70,7 @@ class GameScene: SKScene {
             }
         }
         
-        self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
-        self.physicsBody?.contactTestBitMask = CollisionCategories.SnakeHead
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -78,6 +82,7 @@ class GameScene: SKScene {
             touchedNode.fillColor = .white
         }
        
+        
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -112,12 +117,10 @@ extension GameScene : SKPhysicsContactDelegate {
         case CollisionCategories.Snake:
             break
         case CollisionCategories.EdgeBody:
-            let gameScene = contact.bodyB.node is GameScene ? contact.bodyB.node : contact.bodyA.node
-            
-            gameScene?.removeAllChildren()
-        
-            didMove(to: GameScene: SKView)
-            
+            _ = contact.bodyB.node is GameScene ? contact.bodyB.node : contact.bodyA.node
+            removeAllChildren()
+            didMove(to: view!)
+
         default:
             break
         }
