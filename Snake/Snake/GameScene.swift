@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene {
     var snake: Snake?
+    //var apple: Apple?
 
     
     override func didMove(to view: SKView) {
@@ -64,9 +65,7 @@ class GameScene: SKScene {
             }
         }
         
-        // устанавливаем категорию взаимодействия с другими объектами
         self.physicsBody?.categoryBitMask = CollisionCategories.EdgeBody
-        // устанавливаем категории, с которыми будут пересекаться края сцены
         self.physicsBody?.contactTestBitMask = CollisionCategories.SnakeHead
     }
     
@@ -96,11 +95,6 @@ class GameScene: SKScene {
         self.addChild(apple)
     }
     
-//    func startNewGame() {
-//        createApple()
-//        snake = Snake(atPoint: CGPoint(x: view!.scene!.frame.midX, y: view!.scene!.frame.midY))
-//        self.addChild(snake!)
-//    }
 }
 
 
@@ -118,12 +112,11 @@ extension GameScene : SKPhysicsContactDelegate {
         case CollisionCategories.Snake:
             break
         case CollisionCategories.EdgeBody:
-            var apple: Apple?
-            let body = contact.bodyB.node is Snake ? contact.bodyB.node : contact.bodyA.node
-            snake?.removeFromParent()
-            apple?.removeFromParent()
-            snake = Snake(atPoint: CGPoint(x: view!.scene!.frame.midX, y: view!.scene!.frame.midY))
-            self.addChild(snake!)
+            let gameScene = contact.bodyB.node is GameScene ? contact.bodyB.node : contact.bodyA.node
+            
+            gameScene?.removeAllChildren()
+        
+            didMove(to: GameScene: SKView)
             
         default:
             break
