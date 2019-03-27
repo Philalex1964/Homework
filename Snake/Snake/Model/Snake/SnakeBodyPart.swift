@@ -1,8 +1,16 @@
-import UIKit
+//
+//  SnakeBodyPart.swift
+//  Snake
+//
+//  Created by Александр Филиппов on 23.03.2019.
+//  Copyright © 2019 Philalex. All rights reserved.
+//
+
 import SpriteKit
+import UIKit
 
 class SnakeBodyPart : SKShapeNode {
-    let diameter = 10.0
+    let diameter = 10
     
     init(atPoint point: CGPoint) {
         super.init()
@@ -20,6 +28,7 @@ class SnakeBodyPart : SKShapeNode {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
 
 class SnakeHead : SnakeBodyPart {
     override init(atPoint point: CGPoint) {

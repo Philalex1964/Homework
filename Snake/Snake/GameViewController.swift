@@ -1,9 +1,17 @@
+//
+//  GameViewController.swift
+//  Snake
+//
+//  Created by Александр Филиппов on 23.03.2019.
+//  Copyright © 2019 Philalex. All rights reserved.
+//
+
 import UIKit
 import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let scene = GameScene(size: view.bounds.size)

@@ -1,5 +1,13 @@
-import UIKit
+//
+//  Snake.swift
+//  Snake
+//
+//  Created by Александр Филиппов on 23.03.2019.
+//  Copyright © 2019 Philalex. All rights reserved.
+//
+
 import SpriteKit
+import UIKit
 
 class Snake : SKShapeNode {
     var body = [SnakeBodyPart]()
@@ -49,5 +57,6 @@ class Snake : SKShapeNode {
     func moveBodyPart(p: SnakeBodyPart, c: SnakeBodyPart) {
         let moveAction = SKAction.move(to: CGPoint(x: p.position.x, y: p.position.y), duration: 0.1)
         c.run(moveAction)
+        
     }
 }
