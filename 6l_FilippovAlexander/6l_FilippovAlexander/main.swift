@@ -430,5 +430,18 @@ import Foundation
 //    print(x)
 //}
 
-let text = ["h", ",", "w"]
-print(text[3])
+//let text = ["h", ",", "w"]
+//print(text[0])
+
+
+//let x = 10
+//switch x {
+//case 0 : print("0")
+//case 1 : print("1")
+//default : print("er")
+//}
+
+let dict = ["car" : 4, "mot" : 2, "tr" : 6]
+for (type, numberOfWheels) in dict {
+    print("\(type), \(numberOfWheels)")
+}
